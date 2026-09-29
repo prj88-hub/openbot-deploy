@@ -1,0 +1,21 @@
+# OpenBot all-in-one on Openship (Prj88).
+# Image carries app + API + Chromium + embedded Postgres (EMBEDDED_POSTGRES=on).
+# Secrets + config live in Openship project env, NOT here.
+# Access: Tailscale-only — bind 100.76.46.87:3010 → container 3001.
+# Openship injects env at deploy; compose needs only image/ports/volumes.
+
+services:
+  openbot:
+    image: ghcr.io/copilotkit/openbot:latest
+    restart: unless-stopped
+    ports:
+      - "100.76.46.87:3010:3001"
+    volumes:
+      - openbot-pgdata:/var/lib/postgresql
+      - openbot-workspace:/workspace
+      - openbot-profiles:/profiles
+
+volumes:
+  openbot-pgdata: {}
+  openbot-workspace: {}
+  openbot-profiles: {}
